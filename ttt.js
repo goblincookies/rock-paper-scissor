@@ -101,7 +101,7 @@ function playGame( totalRounds ) {
         console.log(score);
     }
 
-    alert("The final score, YOU: " + score[0] + " COMPUTER: " + score[1] + " TIES:" + score[2]);
+    alert(`The final score, YOU: ${score[0]} COMPUTER: ${score[1]} TIES:${score[2]}`);
 
 }
 
