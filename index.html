@@ -4,10 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
-    <script src="ttt.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- <script src="ttt.js"></script> -->
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
-    
+    <div class="game">
+        <div class="upper">
+            <div class="upper__title"> <h1>ROCK*PAPER*SCISSOR</h1></div>
+            <div class="upper__nav">
+                <p>New Game</p>
+                <ul>
+                    <li>you</li>
+                    <li>comp</li>
+                    <li>tie</li>
+                </ul>
+            </div>
+            <div class="computer-box">
+                <h3>-------</h3>
+            </div>
+        </div>
+        <div class="lower">
+            <div class="lower__nav">
+                <ul>
+                    <li>-</li>
+                    <li>+</li>
+                </ul>
+                <ul>
+                    <li>0</li>
+                    <li>0</li>
+                    <li>0</li>
+                </ul>
+            </div>
+            <div class="options">
+                <ul>
+                    <li>ROCK</li>
+                    <li>PAPER</li>
+                    <li>SCISSOR</li>
+
+                </ul>
+            </div>
+            <div class="human-box">
+                <h3>-------</h3>
+            </div>
+        </div>
+        <div class="again"> <h3>AGAIN!</h3></div>
+    </div>
 </body>
 </html>
