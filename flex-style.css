@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: lightcoral;
+}
+.container {
+    margin: auto;
+    width: 600px;
+    height: 600px;
+    background-color: lightcyan;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    overflow: hidden;
+}
+.element {
+    width: 200px;
+    height: 150px;
+    flex-shrink: 0;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: lightslategray;
+}
