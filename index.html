@@ -15,16 +15,16 @@
         <div class="upper">
             <div class="upper__title">
                 <h1>ROCK*PAPER*SCISSOR
+                    <!-- <br>ROCK*PAPER*SCISSOR
                     <br>ROCK*PAPER*SCISSOR
-                    <br>ROCK*PAPER*SCISSOR
-                    <br>ROCK*PAPER*SCISSOR
+                    <br>ROCK*PAPER*SCISSOR -->
                 </h1></div>
             <div class="display-box computer-box">
-                <h3 class="output">-------</h3>
+                <p id="selection-comp">-------</p>
             </div>
             <div class="nav upper__nav">
                 <div class="nav-up">                    
-                    <p>New Game</p>
+                    <p><a href="">New Game</a></p>
                     <ul>
                         <li>you</li>
                         <li>comp</li>
@@ -37,8 +37,8 @@
             <div class="nav lower__nav">
                 <div class="nav-bot">
                     <ul class="add-elements">
-                        <li>-</li>
-                        <li>+</li>
+                        <li><button class="decrease"><span class="minus">-</span></button></li>
+                        <li><button class="increase"><span class="add">+</span></button></li>
                     </ul>
                     <ul class="score">
                         <li>00</li>
@@ -49,24 +49,15 @@
             </div>
             <div class="human-actions">
                 <div class="display-box human-box">
-                    <h3>-------</h3>
+                    <button>
+                        <p id="selection-human">-------<p>
+                    </button>
                 </div>
                 <div class="options">
                     <ul>
-                        <li><button>ROCK <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></span></li>
-                        <li><button>PAPER <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-                        <li><button>SCISSOR <br> <strike><span class="strike-text">scissor <br> love </span></strike></button></li>
-
+                        <li><button class="selection">ROCK <br> <strike><span class="strike-text">scissor </span></strike></button></span></li>
+                        <li><button class="selection">PAPER <br> <strike><span class="strike-text"> rock </span></strike></button></li>
+                        <li><button class="selection">SCISSOR <br> <strike><span class="strike-text"> Paper </span></strike></button></li>
                     </ul>
                 </div>
             </div>

@@ -10,7 +10,6 @@
     overflow: hidden;
     /* border: 1px solid forestgreen; */
 }
-
 .game {
     background-color: white;
     width: 100%;
@@ -42,6 +41,8 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.display-box p {
     font-size: 45px;
 }
 .computer-box {
@@ -53,6 +54,20 @@ h1 {
 .human-box {
     margin: 0 auto;
 }
+.human-box button {
+    height: 100%;
+    width: 100%;
+    border: none;
+}
+
+.human-box button:hover {
+    height: 100%;
+    width: 100%;
+    border: none;
+    background-color: #f61212;
+    cursor:pointer;
+}
+
 .nav {
     /* background-color: orange; */
     /* padding: 15px; */
@@ -104,20 +119,46 @@ h1 {
 .score li {
     color: black;
 }
+
 .add-elements li {
-    color: white;
-    font-size: 65px;
-    /* text-align: center; */
-    background-color: #EBEBEB;
+    list-style-type: none;
     width: 40px;
     height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
-.upper__nav p {
+
+.add-elements button {
+    height: 100%;
+    width: 100%;
+    font-size: 65px;
+    border: none;
+    cursor: pointer;
+}
+
+.add-elements button:hover {
+    height: 100%;
+    width: 100%;
+    background-color: #2362E4;
+    cursor: pointer; 
+}
+
+.minus {
+    position: relative;
+    top: -22px;
+}
+.add {
+    position: relative;
+    top: -18px;
+}
+
+.upper__nav a {
+    font-weight: 600;
+    color: #8b8b8b;
+}
+
+.upper__nav a:hover {
     color: #2362E4;
 }
+
 .lower {
     /* background-color: lightcoral; */
     height: 100%;
@@ -146,10 +187,11 @@ strike {
     color: #f61212;
 }
 .strike-text {
+    text-transform: uppercase;
     color: black;
     font-weight: 400;
 }
-.options button {
+.selection {
     /* flex-grow: 0; */
     height: 100%;
     width: 100%;
@@ -161,7 +203,7 @@ strike {
     padding: 8px;
 }
 
-.options button:hover {
+.selection:hover {
     height: 100%;
     width: 100%;
     background-color: #f61212;
