@@ -1,11 +1,59 @@
 // CAN BE EXPANDED TO ANNY ODD NUMBER OF OPTIONS
 // THE PATTERN IS WEAK >to> STRONG
-let options = ["rock", "paper", "scissor"];
+let options = ["rock", "paper", "scissor",
+    "fire", "gun","lightning", "devil",
+    "dragon", "water", "air", "sponge",
+    "wolf", "tree", "human", "snake"];
+
+let gameOptions = 15;
+
+const pageTitle = document.querySelector("#pageTitle");
+const bttnDecrease=document.querySelector("#decrease");
+const bttnIncrease=document.querySelector("#increase");
+
+bttnDecrease.addEventListener("click", function(e) {
+    gameOptions -= 2;
+    gameOptions = clamp(3, options.length-1, gameOptions);
+    setupGame();
+});
+bttnIncrease.addEventListener("click", function(e) {
+    gameOptions += 2;
+    gameOptions = clamp(3, options.length-1, gameOptions);
+    setupGame();
+});
+
+function setupGame() {
+    console.log("setting up the title");
+    // SETUP TITLE
+    let title = "";
+
+    for (let i = 0; i < gameOptions; i++) {
+        title += options[i].toUpperCase()
+
+        if (gameOptions > 2 && i == 2) {
+            title+="<br>";
+        }else if ( gameOptions > 5 && Math.floor(gameOptions/2)+1 == i ) {
+            title += "<br>";
+        } else if (i < gameOptions-1) {
+            title += "*"
+        }
+    }
+    pageTitle.innerHTML = title; 
+    // SETUP OPTIONS
+    // ZERO OUT SCORES
+
+}
 
 function getComputerChoice( options ) {
     let selection = Math.floor(Math.random()*options.length)
     return selection;
 }
+
+function clamp( min, max, val ){
+    // Math.min(Math.max( selection, 0), options.length - 1 )
+    return Math.min( Math.max( val, min), max );
+}
+
 
 function getHumanChoice( options ) {
     let selection = prompt("(0) Rock, (1) Paper, (2) Scissor")
@@ -13,7 +61,8 @@ function getHumanChoice( options ) {
     // CHECKS INPUT TO SEE IF IT IS A NUMBER ?
     if (parseInt(selection).toString() == selection) {
         // CLAMP BETWEEN OPTION
-        selection = Math.min(Math.max( selection, 0), options.length - 1 );
+        selection = clamp( 0, options.length-1, selection);
+        // selection = Math.min(Math.max( selection, 0), options.length - 1 );
         return selection;
     }
 
@@ -106,4 +155,7 @@ function playGame( totalRounds ) {
 }
 
 
-playGame(5);
+
+
+// playGame(5);
+setupGame();
