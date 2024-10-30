@@ -13,12 +13,12 @@ const bttnIncrease=document.querySelector("#increase");
 
 bttnDecrease.addEventListener("click", function(e) {
     gameOptions -= 2;
-    gameOptions = clamp(3, options.length-1, gameOptions);
+    gameOptions = clamp(3, options.length, gameOptions);
     setupGame();
 });
 bttnIncrease.addEventListener("click", function(e) {
     gameOptions += 2;
-    gameOptions = clamp(3, options.length-1, gameOptions);
+    gameOptions = clamp(3, options.length, gameOptions);
     setupGame();
 });
 
