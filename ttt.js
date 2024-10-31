@@ -10,7 +10,8 @@ let gameOptions = 3;
 const pageTitle = document.querySelector("#pageTitle");
 const bttnDecrease=document.querySelector("#decrease");
 const bttnIncrease=document.querySelector("#increase");
-const optionList = document.querySelector("#selectionOptions")
+const optionList = document.querySelector("#selectionOptions");
+
 
 bttnDecrease.addEventListener("click", function(e) {
     gameOptions -= 2;
@@ -44,6 +45,7 @@ function setupGame() {
     }
     pageTitle.innerHTML = title
     updateSelectionButtons();
+    // updateListeners();
     // SETUP OPTIONS
     // ZERO OUT SCORES
 
@@ -76,6 +78,7 @@ function makeButton( mainText, strikeText ) {
     const liItem = document.createElement("li");
     const bttnItem = document.createElement("button");
     bttnItem.classList.add("selection");
+    bttnItem.id = mainText;
     bttnItem.innerHTML = text;
 
     liItem.appendChild( bttnItem );
@@ -88,8 +91,8 @@ function updateSelectionButtons ( ) {
     let liList = optionList.querySelectorAll("li");
 
     if (liList.length != gameOptions ) {
-
         
+        // CLEAR THE BUTTONS SO WE CAN UPDATE THE CORRECT TEXT
         if (liList.length > 0 ) {
             // CLEAR OUT THE LIST :(
             liList.forEach( (n) => n.remove() );
@@ -112,10 +115,30 @@ function updateSelectionButtons ( ) {
                 optionList.appendChild( makeButton( options[i], strikeText ) );
             }
         }
-    } else {
-        // REMOVE FIRST/LAST UNTIL CORRECT
-
     }
+    updateListeners();
+
+}
+
+function bttnHumanChoice( e ) {
+    console.log(e.target.id);
+}
+
+function updateListeners() {
+    let bttnList = optionList.querySelectorAll("li");
+    let bttn = null;
+
+    bttnList.forEach( ( liItem )=> {
+        bttn = liItem.querySelector("button");
+        bttn.removeEventListener("click", bttnHumanChoice );
+        bttn.addEventListener( "click", bttnHumanChoice );
+    });
+
+    // buttons.forEach( (bBoy) => {
+    //     bBoy.addEventListener("click", (e) => {
+    //         e.target.style.cssText = "background-color: blue;";
+    //         alert(bBoy.id);
+    //     });
 
 }
 
@@ -128,7 +151,6 @@ function clamp( min, max, val ){
     // Math.min(Math.max( selection, 0), options.length - 1 )
     return Math.min( Math.max( val, min), max );
 }
-
 
 function getHumanChoice( options ) {
     let selection = prompt("(0) Rock, (1) Paper, (2) Scissor")

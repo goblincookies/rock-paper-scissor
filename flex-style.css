@@ -25,3 +25,13 @@ body {
     color: white;
     background-color: lightslategray;
 }
+
+#hello {
+    width: 200px;
+    height: 100px;
+    background-color: lightgoldenrodyellow;
+}
+
+#hello:active {
+    background-color: blue;
+}
