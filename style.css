@@ -132,6 +132,8 @@ h1 {
     font-size: 65px;
     border: none;
     cursor: pointer;
+    background-color: #D0D0D0;
+    
 }
 
 .add-elements button:hover {
@@ -183,7 +185,7 @@ h1 {
     display: flex;
     justify-content: center;
 }
-strike {
+s {
     color: #f61212;
 }
 .strike-text {

@@ -1,25 +1,29 @@
 // CAN BE EXPANDED TO ANNY ODD NUMBER OF OPTIONS
 // THE PATTERN IS WEAK >to> STRONG
-let options = ["rock", "paper", "scissor",
+let options = ["rock", "scissor", "paper",
     "fire", "gun","lightning", "devil",
     "dragon", "water", "air", "sponge",
     "wolf", "tree", "human", "snake"];
 
-let gameOptions = 15;
+let gameOptions = 3;
 
 const pageTitle = document.querySelector("#pageTitle");
 const bttnDecrease=document.querySelector("#decrease");
 const bttnIncrease=document.querySelector("#increase");
+const optionList = document.querySelector("#selectionOptions")
 
 bttnDecrease.addEventListener("click", function(e) {
     gameOptions -= 2;
     gameOptions = clamp(3, options.length, gameOptions);
     setupGame();
+    updateSelectionButtons();
 });
+
 bttnIncrease.addEventListener("click", function(e) {
     gameOptions += 2;
     gameOptions = clamp(3, options.length, gameOptions);
     setupGame();
+    updateSelectionButtons();
 });
 
 function setupGame() {
@@ -38,9 +42,80 @@ function setupGame() {
             title += "*"
         }
     }
-    pageTitle.innerHTML = title; 
+    pageTitle.innerHTML = title
+    updateSelectionButtons();
     // SETUP OPTIONS
     // ZERO OUT SCORES
+
+}
+
+function makeButton( mainText, strikeText ) {
+    // <li><button class="selection">ROCK <br> <s><span class="strike-text">scissor<br></span></s></button></span></li>
+    // 
+    // [n times]
+    // <li>
+    //      <button class="selection">
+    //          SCISSOR <br>
+    //              <s>
+    //              <span class="strike-text">
+    //                  Paper<br>
+    //                  .....<br>
+    //              </span>
+    //          </strike>
+    //      </button>
+    // </li>
+    
+
+    let text = mainText.toUpperCase() + "<br>";
+    text +="<s>";
+    text += '<span class="strike-text" >';
+    strikeText.forEach( (n)=> text += (n.toUpperCase()+"<br>") );
+    text += "</span>";
+    text += "</s>";
+
+    const liItem = document.createElement("li");
+    const bttnItem = document.createElement("button");
+    bttnItem.classList.add("selection");
+    bttnItem.innerHTML = text;
+
+    liItem.appendChild( bttnItem );
+
+    return liItem;
+}
+
+function updateSelectionButtons ( ) {
+    
+    let liList = optionList.querySelectorAll("li");
+
+    if (liList.length != gameOptions ) {
+
+        
+        if (liList.length > 0 ) {
+            // CLEAR OUT THE LIST :(
+            liList.forEach( (n) => n.remove() );
+        }
+
+        let strikeText = [];
+
+        for ( let i = 0; i < gameOptions; i++ ) {
+            strikeText.length = 0;
+
+            for ( let n = 0; n < Math.floor(gameOptions/2); n++ ) {
+                // 
+                strikeText.push( options[1+(i+n*2)%(gameOptions-1)] )
+            }
+
+            if (i > 2 && i%2==0) {
+                // ODD, and after the first 3
+                optionList.insertBefore( makeButton( options[i], strikeText ), optionList.querySelector("li") );
+            } else {
+                optionList.appendChild( makeButton( options[i], strikeText ) );
+            }
+        }
+    } else {
+        // REMOVE FIRST/LAST UNTIL CORRECT
+
+    }
 
 }
 
