@@ -38,3 +38,24 @@ s {
 #hello:active {
     background-color: blue;
 }
+
+.pulse {
+    /* Apply the pulse animation */
+    animation: pulse 1s infinite;
+    animation-timing-function: ease-in-out;
+}
+  
+@keyframes pulse {
+    0% {
+        outline: 0px solid black;
+        color: black;
+    }
+    50% {
+        outline: 5px solid red;
+        color: red;
+    }
+    100% {
+        outline: 0px solid black;
+        color: black;
+    }
+}

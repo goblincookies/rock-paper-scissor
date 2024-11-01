@@ -19,9 +19,10 @@
                     <br>ROCK*PAPER*SCISSOR
                     <br>ROCK*PAPER*SCISSOR -->
                 </h1></div>
-            <div class="display-box computer-box">
-                <p id="selection-comp">-------</p>
-            </div>
+            <p class="display-box computer-box" id = "selection-comp">
+                <!-- <p id="selection-comp">-------</p> -->
+                -------
+            </p>
             <div class="nav upper__nav">
                 <div class="nav-up">                    
                     <p><a href="">New Game</a></p>
@@ -41,16 +42,16 @@
                         <li><button id="increase"><span class="add">+</span></button></li>
                     </ul>
                     <ul class="score">
-                        <li>00</li>
-                        <li>00</li>
-                        <li>00</li>
+                        <li id="score-human">00</li>
+                        <li id="score-comp">00</li>
+                        <li id="score-tie">00</li>
                     </ul>
                 </div>
             </div>
             <div class="human-actions">
                 <div class="display-box human-box">
-                    <button>
-                        <p id="selection-human">-------<p>
+                    <button disabled id="selection-human">
+                        -------
                     </button>
                 </div>
                 <div class="options">

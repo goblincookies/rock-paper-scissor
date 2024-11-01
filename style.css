@@ -41,10 +41,10 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.display-box p {
     font-size: 45px;
 }
+/* .display-box {
+} */
 .computer-box {
     position: absolute;
     bottom: 50px;
@@ -55,6 +55,7 @@ h1 {
     margin: 0 auto;
 }
 .human-box button {
+    font-size: 45px;
     height: 100%;
     width: 100%;
     border: none;
@@ -66,6 +67,12 @@ h1 {
     border: none;
     background-color: #f61212;
     cursor:pointer;
+}
+
+.human-box button:disabled,
+button[disabled] {
+    background-color: #EBEBEB;
+    pointer-events: none;
 }
 
 .nav {
@@ -211,4 +218,88 @@ s {
     width: 100%;
     background-color: #f61212;
     cursor: pointer; 
+}
+
+.pulse {
+    /* Apply the pulse animation */
+    color: black;
+    animation: pulse 1s ease-in-out infinite;
+    /* animation-timing-function: ease-in-out; */
+}
+
+.playing {
+    color: black;
+}
+
+.winner {
+    animation: winner 0.25s ease-in 0.5s 1 forwards;
+}
+
+.loser {
+    animation: loser 0.25s ease-in 0.5s 1 forwards;
+}
+
+.tie {
+    animation: tie 0.25s ease-in 0.5s 1 forwards;
+}
+
+.score-add{
+    animation: score-add 1s ease-out forwards;
+}
+
+@keyframes pulse {
+    0% {
+        border: 5px solid #f61212;
+        /* color: #D0D0D0; */
+    }
+    50% {
+        border: 5px solid black;
+        /* color: black; */
+    }
+    100% {
+        border: 5px solid #f61212;
+        /* color:#D0D0D0; */
+    }
+}
+
+@keyframes winner {
+    0% {
+        background-color: #EBEBEB;
+        color: black;
+    }
+    100% {
+        background-color: #f61212;
+        color:white;
+    }
+}
+
+@keyframes loser {
+    0% {
+        background-color: #EBEBEB;
+        color: black;
+    }
+    100% {
+        background-color: black;
+        color: #5c5c5c;;
+    }
+}
+
+@keyframes tie {
+    0% {
+        background-color: #EBEBEB;
+        color: black;
+    }
+    100% {
+        background-color: black;
+        color: #5c5c5c;
+    }
+}
+
+@keyframes score-add {
+    0% {
+        color: #f61212;
+    }
+    100% {
+        color: black;
+    }
 }

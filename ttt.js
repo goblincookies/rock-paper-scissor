@@ -6,12 +6,23 @@ let options = ["rock", "scissor", "paper",
     "wolf", "tree", "human", "snake"];
 
 let gameOptions = 3;
+let defaultChoice = "-------";
+let throwText = "THROW";
+let humanChoiceIndex = -1;
+let compChoiceIndex = -1;
+let score = [0,0,0];
+
 
 const pageTitle = document.querySelector("#pageTitle");
 const bttnDecrease=document.querySelector("#decrease");
 const bttnIncrease=document.querySelector("#increase");
 const optionList = document.querySelector("#selectionOptions");
+const humanChoice = document.querySelector("#selection-human");
+const compChoice = document.querySelector("#selection-comp");
 
+const scoreHuman = document.querySelector("#score-human");
+const scoreComp = document.querySelector("#score-comp");
+const scoreTie = document.querySelector("#score-tie");
 
 bttnDecrease.addEventListener("click", function(e) {
     gameOptions -= 2;
@@ -26,6 +37,8 @@ bttnIncrease.addEventListener("click", function(e) {
     setupGame();
     updateSelectionButtons();
 });
+
+humanChoice.addEventListener("click", playRound );
 
 function setupGame() {
     console.log("setting up the title");
@@ -45,10 +58,44 @@ function setupGame() {
     }
     pageTitle.innerHTML = title
     updateSelectionButtons();
+    updateScore( 99 );
     // updateListeners();
     // SETUP OPTIONS
     // ZERO OUT SCORES
 
+}
+
+function updateScore( val ) {
+    switch(val) {
+        case -1: // TIE
+            writeScore(scoreTie, 2);
+            break;
+        case 0: // HUMAN WIN
+            writeScore(scoreHuman, 0);
+            break;
+        case 1: // COMPUTER WIN
+            writeScore(scoreComp, 1);
+            break;
+        case 99: // RESET
+            score = [0,0,0];
+            writeScore(scoreHuman, 0);
+            writeScore(scoreComp, 1);
+            writeScore(scoreTie, 2);
+            break;
+
+    }
+}
+
+function writeScore( val, id ) {
+    // val.classList.remove("score-add");
+    val.textContent = score[id];
+    val.classList.add("score-add");
+}
+
+function clearScoreAnim() {
+    scoreHuman.classList.remove("score-add");
+    scoreComp.classList.remove("score-add");
+    scoreTie.classList.remove("score-add");
 }
 
 function makeButton( mainText, strikeText ) {
@@ -116,11 +163,20 @@ function updateSelectionButtons ( ) {
             }
         }
     }
+
+    humanChoice.disabled = true;
+    humanChoice.textContent=defaultChoice;
+    compChoice.textContent=defaultChoice;
+
+    humanChoice.classList.remove("pulse", "playing", "winner", "loser", "tie");
+    compChoice.classList.remove("pulse", "playing", "winner", "loser", "tie");
+
     updateListeners();
 
 }
 
 function bttnHumanChoice( e ) {
+    clearScoreAnim();
     console.log(e.target.id );
     // GO THROUGH ALL BUTTONS, SET BKG TO #EBEBEB
     // SET BKG TO #f61212 for target
@@ -130,7 +186,23 @@ function bttnHumanChoice( e ) {
         bttn = liItem.querySelector("button");
         bttn.style.cssText = "";
     });
-    e.target.style.cssText = "background-color: #f61212;"
+    e.target.style.cssText = "background-color: #f61212;";
+    
+
+    if (humanChoice.disabled ) {
+        humanChoice.disabled = false;
+        humanChoice.classList.remove("playing", "winner", "loser", "tie");
+        humanChoice.classList.add("pulse");
+    }
+
+    humanChoiceIndex = options.indexOf(e.target.id);
+    humanChoice.textContent = throwText.toUpperCase();
+    compChoice.textContent = defaultChoice.toUpperCase();
+    compChoice.classList.remove("playing", "winner", "loser", "tie");
+
+      
+    // humanChoice.textContent = e.target.id.toUpperCase();
+    // humanChoice.style.cssText = "color: black;";
 }
 
 function updateListeners() {
@@ -153,7 +225,8 @@ function updateListeners() {
 }
 
 function getComputerChoice( options ) {
-    let selection = Math.floor(Math.random()*options.length)
+
+    let selection = Math.floor(Math.random()*gameOptions);
     return selection;
 }
 
@@ -184,7 +257,7 @@ function getHumanChoice( options ) {
     return 0
 }
 
-function compareChoices( valA, valB, options ) {
+function compareChoices( valA, valB ) {
     // 0 = VAL A WINS
     // 1 = VAL B WINS
     // -1= TIE
@@ -200,8 +273,8 @@ function compareChoices( valA, valB, options ) {
     // CYCLES THROUGH ALL POSSIBLE OPTIONS
     // THAT WOULD BEAT VAL A AND CHECKS THEM
     // AGAINST VAL B.
-    for (let i = 0; i < Math.floor(options.length/2); i++) {
-        if (valB == ((valA+1) + (i*2))%options.length) {
+    for (let i = 0; i < Math.floor(gameOptions/2); i++) {
+        if (valB == ((valA+1) + (i*2))%gameOptions) {
             winner = 1;
             break;
         }
@@ -214,39 +287,70 @@ function verboseGameState( hOpt, cOpt, options) {
     " and the Computer chose " + options[cOpt].toUpperCase()+"." );
 }
 
-function announceWinner( hOpt, cOpt, winner, options, score) {
-    // console.log(hOpt, cOpt, winner);
+
+// function announceWinner( hOpt, cOpt, winner, options, score) {
+//     // console.log(hOpt, cOpt, winner);
+//     switch(winner) {
+//         case -1: // TIE
+//             alert("TIE, you both chose " + options[hOpt].toUpperCase());
+//             score[2] += 1;
+//             break;
+//         case 0: // HUMAN WIN
+//             alert("YOU WIN! " + verboseGameState( hOpt, cOpt, options ));
+//             score[0] += 1;
+//             break;
+//         case 1: // COMPUTER WIN
+//             alert("YOU LOSE :( " + verboseGameState( hOpt, cOpt, options ));
+//             score[1] += 1;
+//             break;
+//     }
+//     return score;
+
+// }
+
+function playRound ( e ) {
+    // GET COMPUTER OPTION
+    let cOpt = getComputerChoice( options );
+
+    let bttnList = optionList.querySelectorAll("li");
+
+    bttnList.forEach( ( liItem )=> {
+        bttn = liItem.querySelector("button");
+        bttn.style.cssText = "";
+    });
+
+
+    humanChoice.disabled = true;
+    humanChoice.classList.remove("pulse");
+    
+    humanChoice.textContent = options[humanChoiceIndex].toUpperCase();
+    compChoice.textContent = options[cOpt].toUpperCase();
+    
+    let winner = compareChoices( humanChoiceIndex, cOpt );
+
     switch(winner) {
         case -1: // TIE
-            alert("TIE, you both chose " + options[hOpt].toUpperCase());
+            humanChoice.classList.add("playing", "tie");
+            compChoice.classList.add("playing", "tie");
             score[2] += 1;
             break;
         case 0: // HUMAN WIN
-            alert("YOU WIN! " + verboseGameState( hOpt, cOpt, options ));
+            humanChoice.classList.add("playing", "winner");
+            compChoice.classList.add("playing", "loser");
             score[0] += 1;
             break;
         case 1: // COMPUTER WIN
-            alert("YOU LOSE :( " + verboseGameState( hOpt, cOpt, options ));
+            humanChoice.classList.add("playing", "loser");
+            compChoice.classList.add("playing", "winner");
             score[1] += 1;
             break;
     }
-    return score;
 
-}
+    // UPDATE SCORE ON DELAY
+    setTimeout(function (){
+        updateScore(winner);
+      }, 1000);
 
-function playRound( score ) {
-    // GET HUMAN OPTION
-    let hOpt = getHumanChoice( options );
-    
-    // GET COMPUTER OPTION
-    let cOpt = getComputerChoice( options );
-    
-    // COMPARE RESULTS
-    let winner = compareChoices( hOpt, cOpt, options );
-
-    // ANNOUNCE WINNER
-    announceWinner( hOpt, cOpt, winner, options, score );
-    return score;
 }
 
 function playGame( totalRounds ) {
@@ -260,7 +364,6 @@ function playGame( totalRounds ) {
     alert(`The final score, YOU: ${score[0]} COMPUTER: ${score[1]} TIES:${score[2]}`);
 
 }
-
 
 
 
