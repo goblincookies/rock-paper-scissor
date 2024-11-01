@@ -122,9 +122,19 @@ function updateSelectionButtons ( ) {
 
 function bttnHumanChoice( e ) {
     console.log(e.target.id );
+    // GO THROUGH ALL BUTTONS, SET BKG TO #EBEBEB
+    // SET BKG TO #f61212 for target
+    let bttnList = optionList.querySelectorAll("li");
+
+    bttnList.forEach( ( liItem )=> {
+        bttn = liItem.querySelector("button");
+        bttn.style.cssText = "";
+    });
+    e.target.style.cssText = "background-color: #f61212;"
 }
 
 function updateListeners() {
+
     let bttnList = optionList.querySelectorAll("li");
     let bttn = null;
 

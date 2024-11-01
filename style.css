@@ -187,6 +187,7 @@ h1 {
 }
 s {
     color: #f61212;
+    pointer-events: none;
 }
 .strike-text {
     text-transform: uppercase;
