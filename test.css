@@ -25,6 +25,9 @@ body {
     color: white;
     background-color: lightslategray;
 }
+s {
+    pointer-events: none;
+}
 
 #hello {
     width: 200px;

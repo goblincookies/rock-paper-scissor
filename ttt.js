@@ -121,7 +121,7 @@ function updateSelectionButtons ( ) {
 }
 
 function bttnHumanChoice( e ) {
-    console.log(e.target.id);
+    console.log(e.target.id );
 }
 
 function updateListeners() {
