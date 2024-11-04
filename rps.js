@@ -4,8 +4,6 @@ let options = ["rock", "scissor", "paper",
     "fire", "gun","lightning", "devil",
     "dragon", "water", "air", "sponge",
     "wolf", "tree", "human", "snake"];
-
-let currentGameOptions = ["rock", "scissor", "paper"];
 let gameOptions = 3;
 let defaultChoice = "-------";
 let throwText = "THROW";
@@ -57,7 +55,6 @@ function setupGame() {
             title += "*"
         }
     }
-    // SETUP CURRENT GAME OPTIONS
 
     pageTitle.innerHTML = title
     updateSelectionButtons();
@@ -144,11 +141,13 @@ function updateSelectionButtons ( ) {
         
         // CLEAR THE BUTTONS SO WE CAN UPDATE THE CORRECT TEXT
         if (liList.length > 0 ) {
+
             // CLEAR OUT THE LIST :(
             liList.forEach( (n) => n.remove() );
         }
 
         let strikeText = [];
+
 
         for ( let i = 0; i < gameOptions; i++ ) {
             strikeText.length = 0;
@@ -157,7 +156,6 @@ function updateSelectionButtons ( ) {
                 // 
                 strikeText.push( options[1+(i+n*2)%(gameOptions-1)] )
             }
-
             if (i > 2 && i%2==0) {
                 // ODD, and after the first 3
                 optionList.insertBefore( makeButton( options[i], strikeText ), optionList.querySelector("li") );
