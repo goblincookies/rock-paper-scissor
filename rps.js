@@ -5,6 +5,7 @@ let options = ["rock", "scissor", "paper",
     "dragon", "water", "air", "sponge",
     "wolf", "tree", "human", "snake"];
 
+let currentGameOptions = ["rock", "scissor", "paper"];
 let gameOptions = 3;
 let defaultChoice = "-------";
 let throwText = "THROW";
@@ -56,6 +57,8 @@ function setupGame() {
             title += "*"
         }
     }
+    // SETUP CURRENT GAME OPTIONS
+
     pageTitle.innerHTML = title
     updateSelectionButtons();
     updateScore( 99 );
