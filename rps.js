@@ -4,6 +4,9 @@ let options = ["rock", "scissor", "paper",
     "fire", "gun","lightning", "devil",
     "dragon", "water", "air", "sponge",
     "wolf", "tree", "human", "snake"];
+
+let currentGameOptions = ["rock", "scissor", "paper"];
+
 let gameOptions = 3;
 let defaultChoice = "-------";
 let throwText = "THROW";
@@ -144,25 +147,45 @@ function updateSelectionButtons ( ) {
 
             // CLEAR OUT THE LIST :(
             liList.forEach( (n) => n.remove() );
+            currentGameOptions = [];
         }
 
         let strikeText = [];
 
-
-        for ( let i = 0; i < gameOptions; i++ ) {
-            strikeText.length = 0;
-
-            for ( let n = 0; n < Math.floor(gameOptions/2); n++ ) {
-                // 
-                strikeText.push( options[1+(i+n*2)%(gameOptions-1)] )
-            }
+        for (let i = 0; i< gameOptions; i++) {
             if (i > 2 && i%2==0) {
-                // ODD, and after the first 3
-                optionList.insertBefore( makeButton( options[i], strikeText ), optionList.querySelector("li") );
+                currentGameOptions.unshift( options[i] );
             } else {
-                optionList.appendChild( makeButton( options[i], strikeText ) );
+                currentGameOptions.push( options[i] );
             }
         }
+
+        for (let i =0; i<currentGameOptions.length; i++) {
+            strikeText.length = 0;
+            
+            for ( let n = 0; n < Math.floor(currentGameOptions.length/2); n++ ) {
+                // 
+                strikeText.push( currentGameOptions[(1+(i+n*2))%(currentGameOptions.length)] )
+            }
+            optionList.appendChild( makeButton( currentGameOptions[i], strikeText ) );
+        }
+
+
+        // for ( let i = 0; i < gameOptions; i++ ) {
+        //     strikeText.length = 0;
+
+        //     for ( let n = 0; n < Math.floor(gameOptions/2); n++ ) {
+        //         // 
+        //         strikeText.push( options[1+(i+n*2)%(gameOptions)] )
+        //     }
+        //     if (i > 2 && i%2==0) {
+        //         // ODD, and after the first 3
+        //         optionList.insertBefore( makeButton( options[i], strikeText ), optionList.querySelector("li") );
+        //     } else {
+        //         optionList.appendChild( makeButton( options[i], strikeText ) );
+        //     }
+        // }
+
     }
 
     humanChoice.disabled = true;
@@ -196,7 +219,8 @@ function bttnHumanChoice( e ) {
         humanChoice.classList.add("pulse");
     }
 
-    humanChoiceIndex = options.indexOf(e.target.id);
+    humanChoiceIndex = currentGameOptions.indexOf(e.target.id);
+    // humanChoiceIndex = options.indexOf(e.target.id);
     humanChoice.textContent = throwText.toUpperCase();
     compChoice.textContent = defaultChoice.toUpperCase();
     compChoice.classList.remove("playing", "winner", "loser", "tie");
@@ -225,9 +249,9 @@ function updateListeners() {
 
 }
 
-function getComputerChoice( options ) {
+function getComputerChoice() {
 
-    let selection = Math.floor(Math.random()*gameOptions);
+    let selection = Math.floor(Math.random()*currentGameOptions.length);
     return selection;
 }
 
@@ -236,27 +260,27 @@ function clamp( min, max, val ){
     return Math.min( Math.max( val, min), max );
 }
 
-function getHumanChoice( options ) {
-    let selection = prompt("(0) Rock, (1) Paper, (2) Scissor")
+// function getHumanChoice( options ) {
+//     let selection = prompt("(0) Rock, (1) Paper, (2) Scissor")
     
-    // CHECKS INPUT TO SEE IF IT IS A NUMBER ?
-    if (parseInt(selection).toString() == selection) {
-        // CLAMP BETWEEN OPTION
-        selection = clamp( 0, options.length-1, selection);
-        // selection = Math.min(Math.max( selection, 0), options.length - 1 );
-        return selection;
-    }
+//     // CHECKS INPUT TO SEE IF IT IS A NUMBER ?
+//     if (parseInt(selection).toString() == selection) {
+//         // CLAMP BETWEEN OPTION
+//         selection = clamp( 0, options.length-1, selection);
+//         // selection = Math.min(Math.max( selection, 0), options.length - 1 );
+//         return selection;
+//     }
 
-    // CHECK TO FIRST LETTER OF ALL THE OPTIONS
-    // AGAINST THE FIRST LETTER OF THE TYPED INPUT
-    for (let i = 0; i < options.length; i++) {
-        if (options[i][0].toLowerCase() == selection[0].toLowerCase() ) {
-            return i;
-        }
-    }
-    // INPUT WAS NOT UNDERSTOOD; DEFAULT TO ROCK
-    return 0
-}
+//     // CHECK TO FIRST LETTER OF ALL THE OPTIONS
+//     // AGAINST THE FIRST LETTER OF THE TYPED INPUT
+//     for (let i = 0; i < options.length; i++) {
+//         if (options[i][0].toLowerCase() == selection[0].toLowerCase() ) {
+//             return i;
+//         }
+//     }
+//     // INPUT WAS NOT UNDERSTOOD; DEFAULT TO ROCK
+//     return 0
+// }
 
 function compareChoices( valA, valB ) {
     // 0 = VAL A WINS
@@ -264,7 +288,7 @@ function compareChoices( valA, valB ) {
     // -1= TIE
 
     // ASSUMES VAL A IS WINNER
-    let winner = 0
+    let winner = 1;
 
     if (valA == valB) {
         // IT'S A TIE;
@@ -274,9 +298,13 @@ function compareChoices( valA, valB ) {
     // CYCLES THROUGH ALL POSSIBLE OPTIONS
     // THAT WOULD BEAT VAL A AND CHECKS THEM
     // AGAINST VAL B.
+
     for (let i = 0; i < Math.floor(gameOptions/2); i++) {
+
+        // strikeText.push( currentGameOptions[(1+(i+n*2))%(currentGameOptions.length)] )
+        // if (valB == (valA+1))
         if (valB == ((valA+1) + (i*2))%gameOptions) {
-            winner = 1;
+            winner = 0;
             break;
         }
     }
@@ -311,7 +339,7 @@ function verboseGameState( hOpt, cOpt, options) {
 
 function playRound ( e ) {
     // GET COMPUTER OPTION
-    let cOpt = getComputerChoice( options );
+    let cOpt = getComputerChoice();
 
     let bttnList = optionList.querySelectorAll("li");
 
@@ -324,8 +352,9 @@ function playRound ( e ) {
     humanChoice.disabled = true;
     humanChoice.classList.remove("pulse");
     
-    humanChoice.textContent = options[humanChoiceIndex].toUpperCase();
-    compChoice.textContent = options[cOpt].toUpperCase();
+    humanChoice.textContent = currentGameOptions[humanChoiceIndex].toUpperCase();
+    // humanChoice.textContent = options[humanChoiceIndex].toUpperCase();
+    compChoice.textContent = currentGameOptions[cOpt].toUpperCase();
     
     let winner = compareChoices( humanChoiceIndex, cOpt );
 
