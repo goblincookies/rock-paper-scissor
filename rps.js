@@ -21,10 +21,15 @@ const bttnIncrease=document.querySelector("#increase");
 const optionList = document.querySelector("#selectionOptions");
 const humanChoice = document.querySelector("#selection-human");
 const compChoice = document.querySelector("#selection-comp");
+const newGame = document.querySelector("#new-game");
 
 const scoreHuman = document.querySelector("#score-human");
 const scoreComp = document.querySelector("#score-comp");
 const scoreTie = document.querySelector("#score-tie");
+
+newGame.addEventListener("click", function() {
+    setupGame();
+});
 
 bttnDecrease.addEventListener("click", function(e) {
     gameOptions -= 2;
