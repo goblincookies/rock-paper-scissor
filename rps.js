@@ -27,10 +27,13 @@ const scoreHuman = document.querySelector("#score-human");
 const scoreComp = document.querySelector("#score-comp");
 const scoreTie = document.querySelector("#score-tie");
 
+
+// NEW GAME BUTTON
 newGame.addEventListener("click", function() {
     setupGame();
 });
 
+// DECREASE THE NUMBER OF PLAYABLE OPTIONS 
 bttnDecrease.addEventListener("click", function(e) {
     gameOptions -= 2;
     gameOptions = clamp(3, options.length, gameOptions);
@@ -38,6 +41,7 @@ bttnDecrease.addEventListener("click", function(e) {
     updateSelectionButtons();
 });
 
+// INCREASE THE NUMBER OF PLAYABLE OPTIONS 
 bttnIncrease.addEventListener("click", function(e) {
     gameOptions += 2;
     gameOptions = clamp(3, options.length, gameOptions);
@@ -45,16 +49,16 @@ bttnIncrease.addEventListener("click", function(e) {
     updateSelectionButtons();
 });
 
+// THROW BUTTON
 humanChoice.addEventListener("click", playRound );
 
+// SETS NEW GAME
 function setupGame() {
-    console.log("setting up the title");
+
     // SETUP TITLE
     let title = "";
-
     for (let i = 0; i < gameOptions; i++) {
         title += options[i].toUpperCase()
-
         if (gameOptions > 2 && i == 2) {
             title+="<br>";
         }else if ( gameOptions > 5 && Math.floor(gameOptions/2)+1 == i ) {
@@ -63,16 +67,18 @@ function setupGame() {
             title += "*"
         }
     }
-
     pageTitle.innerHTML = title
-    updateSelectionButtons();
-    updateScore( 99 );
-    // updateListeners();
-    // SETUP OPTIONS
-    // ZERO OUT SCORES
 
+    // MAKE SURE THE BUTTONS MATCH THE SELECTED OPTIONS
+    updateSelectionButtons();
+
+    // RESET THE SCORE
+    updateScore( 99 );
 }
 
+// REDRAWS THE SCORE BASED ON WHAT'S
+// ALREADY IN THE SCORE VARIABLE
+// VAL IS THE WINNER CODE
 function updateScore( val ) {
     switch(val) {
         case -1: // TIE
@@ -90,26 +96,29 @@ function updateScore( val ) {
             writeScore(scoreComp, 1);
             writeScore(scoreTie, 2);
             break;
-
     }
 }
 
+// ANIMATES THE SCORE
+// VAL IS THE DOCUMENT ELEMENT
+// ID IS THE SCORE INDEX
 function writeScore( val, id ) {
-    // val.classList.remove("score-add");
     val.textContent = score[id];
     val.classList.add("score-add");
 }
 
+// REMOVES THE ANIMATION FLAGS
+// SO THEY CAN BE REANIMATED
 function clearScoreAnim() {
     scoreHuman.classList.remove("score-add");
     scoreComp.classList.remove("score-add");
     scoreTie.classList.remove("score-add");
 }
 
+// A TEMPLATE TO MAKE ROCK/PAPER/ETC BUTTONS
+// MAINTEXT IS THE TITLE OF THE BUTTON
+// STRIKETEXT IS THE TEXT THAT IS BELOW
 function makeButton( mainText, strikeText ) {
-    // <li><button class="selection">ROCK <br> <s><span class="strike-text">scissor<br></span></s></button></span></li>
-    // 
-    // [n times]
     // <li>
     //      <button class="selection">
     //          SCISSOR <br>
@@ -122,7 +131,6 @@ function makeButton( mainText, strikeText ) {
     //      </button>
     // </li>
     
-
     let text = mainText.toUpperCase() + "<br>";
     text +="<s>";
     text += '<span class="strike-text" >';
@@ -141,6 +149,7 @@ function makeButton( mainText, strikeText ) {
     return liItem;
 }
 
+// MAKES SURE THE BUTTONS MATCH THE GAME OPTIONS
 function updateSelectionButtons ( ) {
     
     let liList = optionList.querySelectorAll("li");
@@ -169,55 +178,45 @@ function updateSelectionButtons ( ) {
             strikeText.length = 0;
             
             for ( let n = 0; n < Math.floor(currentGameOptions.length/2); n++ ) {
-                // 
+                // APPEND THE TEXT
                 strikeText.push( currentGameOptions[(1+(i+n*2))%(currentGameOptions.length)] )
             }
             optionList.appendChild( makeButton( currentGameOptions[i], strikeText ) );
         }
 
-
-        // for ( let i = 0; i < gameOptions; i++ ) {
-        //     strikeText.length = 0;
-
-        //     for ( let n = 0; n < Math.floor(gameOptions/2); n++ ) {
-        //         // 
-        //         strikeText.push( options[1+(i+n*2)%(gameOptions)] )
-        //     }
-        //     if (i > 2 && i%2==0) {
-        //         // ODD, and after the first 3
-        //         optionList.insertBefore( makeButton( options[i], strikeText ), optionList.querySelector("li") );
-        //     } else {
-        //         optionList.appendChild( makeButton( options[i], strikeText ) );
-        //     }
-        // }
-
     }
 
+    // DISABLE THE THROW BUTTON UNTIL
+    // THE PLAYER HAS MADE A SELECTION 
     humanChoice.disabled = true;
     humanChoice.textContent=defaultChoice;
     compChoice.textContent=defaultChoice;
 
+    // REMOVE ANY ANIMATION OR WIN CONDITIONS
     humanChoice.classList.remove("pulse", "playing", "winner", "loser", "tie");
     compChoice.classList.remove("pulse", "playing", "winner", "loser", "tie");
 
+    // MAKE SURE EACH BUTTON HAS AN EVENT LISTENER
     updateListeners();
-
 }
 
+// TRIGGERS WHEN THE PLAYER SELECTS ROCK/PAPER/ETC
 function bttnHumanChoice( e ) {
     clearScoreAnim();
     console.log(e.target.id );
-    // GO THROUGH ALL BUTTONS, SET BKG TO #EBEBEB
-    // SET BKG TO #f61212 for target
-    let bttnList = optionList.querySelectorAll("li");
 
+    // THE BUTTON SHOULD APPEAR TO TOGGLE ON
+    // GO THROUGH ALL BUTTONS, SET BKG TO #EBEBEB (OFF)
+    let bttnList = optionList.querySelectorAll("li");
     bttnList.forEach( ( liItem )=> {
         bttn = liItem.querySelector("button");
         bttn.style.cssText = "";
     });
+    // SET BKG TO #f61212 (ON) for target
     e.target.style.cssText = "background-color: #f61212;";
     
-
+    // MAKE SURE THE THROW BUTTON IS
+    // ENABLED AND ANIMATED
     if (humanChoice.disabled ) {
         humanChoice.disabled = false;
         humanChoice.classList.remove("playing", "winner", "loser", "tie");
@@ -225,16 +224,13 @@ function bttnHumanChoice( e ) {
     }
 
     humanChoiceIndex = currentGameOptions.indexOf(e.target.id);
-    // humanChoiceIndex = options.indexOf(e.target.id);
     humanChoice.textContent = throwText.toUpperCase();
     compChoice.textContent = defaultChoice.toUpperCase();
     compChoice.classList.remove("playing", "winner", "loser", "tie");
-
-      
-    // humanChoice.textContent = e.target.id.toUpperCase();
-    // humanChoice.style.cssText = "color: black;";
 }
 
+// MAKES SURE EACH ROCK/PAPER/ETC BUTTON HAS
+// A LISTENER. IT FIRST CLEARS ANY OLD ONES
 function updateListeners() {
 
     let bttnList = optionList.querySelectorAll("li");
@@ -245,47 +241,18 @@ function updateListeners() {
         bttn.removeEventListener("click", bttnHumanChoice );
         bttn.addEventListener( "click", bttnHumanChoice );
     });
-
-    // buttons.forEach( (bBoy) => {
-    //     bBoy.addEventListener("click", (e) => {
-    //         e.target.style.cssText = "background-color: blue;";
-    //         alert(bBoy.id);
-    //     });
-
 }
 
+// RANDOMLY SELECTS AN OPTION AND RETURNS THE INDEX
 function getComputerChoice() {
-
     let selection = Math.floor(Math.random()*currentGameOptions.length);
     return selection;
 }
 
 function clamp( min, max, val ){
-    // Math.min(Math.max( selection, 0), options.length - 1 )
     return Math.min( Math.max( val, min), max );
 }
 
-// function getHumanChoice( options ) {
-//     let selection = prompt("(0) Rock, (1) Paper, (2) Scissor")
-    
-//     // CHECKS INPUT TO SEE IF IT IS A NUMBER ?
-//     if (parseInt(selection).toString() == selection) {
-//         // CLAMP BETWEEN OPTION
-//         selection = clamp( 0, options.length-1, selection);
-//         // selection = Math.min(Math.max( selection, 0), options.length - 1 );
-//         return selection;
-//     }
-
-//     // CHECK TO FIRST LETTER OF ALL THE OPTIONS
-//     // AGAINST THE FIRST LETTER OF THE TYPED INPUT
-//     for (let i = 0; i < options.length; i++) {
-//         if (options[i][0].toLowerCase() == selection[0].toLowerCase() ) {
-//             return i;
-//         }
-//     }
-//     // INPUT WAS NOT UNDERSTOOD; DEFAULT TO ROCK
-//     return 0
-// }
 
 function compareChoices( valA, valB ) {
     // 0 = VAL A WINS
@@ -305,9 +272,6 @@ function compareChoices( valA, valB ) {
     // AGAINST VAL B.
 
     for (let i = 0; i < Math.floor(gameOptions/2); i++) {
-
-        // strikeText.push( currentGameOptions[(1+(i+n*2))%(currentGameOptions.length)] )
-        // if (valB == (valA+1))
         if (valB == ((valA+1) + (i*2))%gameOptions) {
             winner = 0;
             break;
@@ -316,53 +280,30 @@ function compareChoices( valA, valB ) {
     return winner;
 }
 
-function verboseGameState( hOpt, cOpt, options) {
-    return ("You chose " + options[hOpt].toUpperCase() +
-    " and the Computer chose " + options[cOpt].toUpperCase()+"." );
-}
-
-
-// function announceWinner( hOpt, cOpt, winner, options, score) {
-//     // console.log(hOpt, cOpt, winner);
-//     switch(winner) {
-//         case -1: // TIE
-//             alert("TIE, you both chose " + options[hOpt].toUpperCase());
-//             score[2] += 1;
-//             break;
-//         case 0: // HUMAN WIN
-//             alert("YOU WIN! " + verboseGameState( hOpt, cOpt, options ));
-//             score[0] += 1;
-//             break;
-//         case 1: // COMPUTER WIN
-//             alert("YOU LOSE :( " + verboseGameState( hOpt, cOpt, options ));
-//             score[1] += 1;
-//             break;
-//     }
-//     return score;
-
-// }
-
+// TRIGGERS AFTER THROW IS CLICKED
 function playRound ( e ) {
     // GET COMPUTER OPTION
     let cOpt = getComputerChoice();
 
+    // REMOVE ANY STYLING ON THE ROCK/PAPER/ETC BUTTONS
     let bttnList = optionList.querySelectorAll("li");
-
     bttnList.forEach( ( liItem )=> {
         bttn = liItem.querySelector("button");
         bttn.style.cssText = "";
     });
 
-
+    // DISABLE THE THROW BUTTON
     humanChoice.disabled = true;
     humanChoice.classList.remove("pulse");
     
+    // REPLACE THROW WITH THE PLAYERS CHOICE
     humanChoice.textContent = currentGameOptions[humanChoiceIndex].toUpperCase();
-    // humanChoice.textContent = options[humanChoiceIndex].toUpperCase();
     compChoice.textContent = currentGameOptions[cOpt].toUpperCase();
     
     let winner = compareChoices( humanChoiceIndex, cOpt );
 
+    // PLAY WINNER ANIMATIONS
+    // AND UPDATE THE SCORE
     switch(winner) {
         case -1: // TIE
             humanChoice.classList.add("playing", "tie");
@@ -388,19 +329,4 @@ function playRound ( e ) {
 
 }
 
-function playGame( totalRounds ) {
-    let score = [0,0,0];
-
-    for (let round = 0; round < totalRounds; round ++) {
-        score = playRound( score );
-        console.log(score);
-    }
-
-    alert(`The final score, YOU: ${score[0]} COMPUTER: ${score[1]} TIES:${score[2]}`);
-
-}
-
-
-
-// playGame(5);
 setupGame();
